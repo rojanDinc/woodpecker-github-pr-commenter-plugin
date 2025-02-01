@@ -37,6 +37,7 @@ func TestPlugin(t *testing.T) {
 				Repository:        "repo",
 				Comment:           "comment",
 				PullRequestNumber: 1,
+				Owner:             "owner",
 			},
 			resp: &http.Response{
 				StatusCode: 201,
@@ -52,6 +53,7 @@ func TestPlugin(t *testing.T) {
 				Repository:        "repo",
 				Comment:           "comment",
 				PullRequestNumber: 1,
+				Owner:             "owner",
 			},
 			resp: &http.Response{
 				StatusCode: 403,

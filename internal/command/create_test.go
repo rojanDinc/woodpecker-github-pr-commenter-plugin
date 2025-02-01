@@ -30,6 +30,7 @@ func TestCreateCommandSuccess(t *testing.T) {
 		"CI_REPO":                "repo",
 		"CI_COMMIT_PULL_REQUEST": "1",
 		"PLUGIN_COMMENT":         "comment",
+		"CI_REPO_OWNER":          "owner",
 	}
 	for k, v := range vars {
 		t.Setenv(k, v)
@@ -67,6 +68,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"CI_REPO":                "repo",
 				"CI_COMMIT_PULL_REQUEST": "1",
 				"PLUGIN_COMMENT":         "comment",
+				"CI_REPO_OWNER":          "owner",
 			},
 			expected: errors.New("GitHub token is required"),
 		},
@@ -76,6 +78,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"CI_COMMIT_PULL_REQUEST": "1",
 				"PLUGIN_COMMENT":         "comment",
 				"PLUGIN_GITHUB_TOKEN":    "token",
+				"CI_REPO_OWNER":          "owner",
 			},
 			expected: errors.New("GitHub repository is required"),
 		},
@@ -85,6 +88,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"CI_REPO":             "repo",
 				"PLUGIN_COMMENT":      "comment",
 				"PLUGIN_GITHUB_TOKEN": "token",
+				"CI_REPO_OWNER":       "owner",
 			},
 			expected: errors.New("pull request number is required"),
 		},
@@ -94,8 +98,19 @@ func TestCreateCommandFail(t *testing.T) {
 				"CI_REPO":                "repo",
 				"CI_COMMIT_PULL_REQUEST": "1",
 				"PLUGIN_GITHUB_TOKEN":    "token",
+				"CI_REPO_OWNER":          "owner",
 			},
 			expected: errors.New("comment is required"),
+		},
+		{
+			name: "missing owner",
+			vars: map[string]string{
+				"CI_REPO":                "repo",
+				"CI_COMMIT_PULL_REQUEST": "1",
+				"PLUGIN_COMMENT":         "comment",
+				"PLUGIN_GITHUB_TOKEN":    "token",
+			},
+			expected: errors.New("owner is required"),
 		},
 	}
 

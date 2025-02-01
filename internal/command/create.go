@@ -60,5 +60,11 @@ func (c *Create) flags() []cli.Flag {
 			Sources:     cli.EnvVars("PLUGIN_COMMENT"),
 			Destination: &c.settings.Comment,
 		},
+		&cli.StringFlag{
+			Name:        "owner",
+			Usage:       "Owner of the repository",
+			Sources:     cli.EnvVars("CI_REPO_OWNER"),
+			Destination: &c.settings.Owner,
+		},
 	}
 }

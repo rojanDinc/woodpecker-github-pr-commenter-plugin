@@ -27,5 +27,9 @@ func (s *Settings) Validate() error {
 		return errors.New("comment is required")
 	}
 
+	if s.Owner == "" {
+		return errors.New("owner is required")
+	}
+
 	return nil
 }
