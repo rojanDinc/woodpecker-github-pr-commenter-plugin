@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
 	"os"
 
@@ -10,6 +11,8 @@ import (
 )
 
 func main() {
+	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})))
+
 	createCmd := command.NewCreate(http.DefaultClient)
 	cmd := &cli.Command{
 		Commands: []*cli.Command{
@@ -18,6 +21,7 @@ func main() {
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
-		panic(err)
+		slog.Error("error running command", "error", err)
+		os.Exit(1)
 	}
 }
