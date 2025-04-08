@@ -31,7 +31,6 @@ func (c *Create) Command() *cli.Command {
 			return plugin.Execute(ctx)
 		},
 	}
-
 }
 
 func (c *Create) flags() []cli.Flag {
