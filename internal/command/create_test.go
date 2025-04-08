@@ -56,7 +56,7 @@ func TestCreateCommandSuccess(t *testing.T) {
 	err := cmd.Run(context.Background(), []string{"", "create"})
 
 	assert.NoError(t, err)
-	assert.True(t, slog.Default().Handler().Enabled(context.Background(), slog.LevelDebug)
+	assert.True(t, slog.Default().Handler().Enabled(context.Background(), slog.LevelDebug))
 }
 
 func TestCreateCommandFail(t *testing.T) {
