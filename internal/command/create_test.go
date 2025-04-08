@@ -73,7 +73,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"PLUGIN_COMMENT":         "comment",
 				"CI_REPO_OWNER":          "owner",
 			},
-			expected: errors.New("GitHub token is required"),
+			expected: errors.New("Required flag \"token\" not set"),
 		},
 		{
 			name: "missing repo",
@@ -83,7 +83,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"PLUGIN_GITHUB_TOKEN":    "token",
 				"CI_REPO_OWNER":          "owner",
 			},
-			expected: errors.New("GitHub repository is required"),
+			expected: errors.New("Required flag \"repo\" not set"),
 		},
 		{
 			name: "missing pull request number",
@@ -93,7 +93,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"PLUGIN_GITHUB_TOKEN": "token",
 				"CI_REPO_OWNER":       "owner",
 			},
-			expected: errors.New("pull request number is required"),
+			expected: errors.New("Required flag \"pr-number\" not set"),
 		},
 		{
 			name: "missing comment",
@@ -103,7 +103,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"PLUGIN_GITHUB_TOKEN":    "token",
 				"CI_REPO_OWNER":          "owner",
 			},
-			expected: errors.New("comment is required"),
+			expected: errors.New("Required flag \"comment\" not set"),
 		},
 		{
 			name: "missing owner",
@@ -113,7 +113,7 @@ func TestCreateCommandFail(t *testing.T) {
 				"PLUGIN_COMMENT":         "comment",
 				"PLUGIN_GITHUB_TOKEN":    "token",
 			},
-			expected: errors.New("owner is required"),
+			expected: errors.New("Required flag \"owner\" not set"),
 		},
 	}
 
@@ -141,7 +141,7 @@ func TestCreateCommandFail(t *testing.T) {
 
 			err := cmd.Run(context.Background(), []string{"", "create"})
 
-			assert.Equal(t, c.expected, err)
+			assert.ErrorContains(t, err, c.expected.Error())
 		})
 	}
 }
