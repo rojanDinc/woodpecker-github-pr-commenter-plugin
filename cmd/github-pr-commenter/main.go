@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
 	"os"
 
@@ -18,6 +19,7 @@ func main() {
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
-		panic(err)
+		slog.Error("error running command", "error", err)
+		os.Exit(1)
 	}
 }

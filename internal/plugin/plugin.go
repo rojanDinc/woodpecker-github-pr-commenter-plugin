@@ -29,10 +29,6 @@ func NewPlugin(ghBaseURL string, httpClient *http.Client, settings *Settings) *P
 }
 
 func (p *Plugin) Execute(ctx context.Context) error {
-	if err := p.Settings.Validate(); err != nil {
-		return err
-	}
-
 	data := CreateCommentRequest{
 		Body: p.Settings.Comment,
 	}
@@ -41,7 +37,12 @@ func (p *Plugin) Execute(ctx context.Context) error {
 		return err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", p.baseURL, p.Settings.Owner, p.Settings.Repository, p.Settings.PullRequestNumber), buf)
+	req, err := http.NewRequestWithContext(
+		ctx,
+		"POST",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", p.baseURL, p.Settings.Owner, p.Settings.Repository, p.Settings.PullRequestNumber),
+		buf,
+	)
 	if err != nil {
 		return err
 	}
@@ -56,6 +57,7 @@ func (p *Plugin) Execute(ctx context.Context) error {
 	}
 
 	if resp.StatusCode != 201 {
+		// TODO: add status code to error
 		return errors.New("failed to create comment got unexpected status code")
 	}
 
