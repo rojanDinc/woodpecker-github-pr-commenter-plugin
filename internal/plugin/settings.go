@@ -8,6 +8,7 @@ type Settings struct {
 	Comment           string
 	PullRequestNumber int64
 	Owner             string
+	LogLevel          string
 }
 
 func (s *Settings) Validate() error {
