@@ -29,10 +29,6 @@ func NewPlugin(ghBaseURL string, httpClient *http.Client, settings *Settings) *P
 }
 
 func (p *Plugin) Execute(ctx context.Context) error {
-	if err := p.Settings.Validate(); err != nil {
-		return err
-	}
-
 	data := CreateCommentRequest{
 		Body: p.Settings.Comment,
 	}
