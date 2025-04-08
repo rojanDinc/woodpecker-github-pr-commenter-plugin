@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"log/slog"
 	"net/http"
 	"testing"
 
@@ -31,6 +32,7 @@ func TestCreateCommandSuccess(t *testing.T) {
 		"CI_COMMIT_PULL_REQUEST": "1",
 		"PLUGIN_COMMENT":         "comment",
 		"CI_REPO_OWNER":          "owner",
+		"PLUGIN_LOG_LEVEL":       "debug",
 	}
 	for k, v := range vars {
 		t.Setenv(k, v)
@@ -54,6 +56,7 @@ func TestCreateCommandSuccess(t *testing.T) {
 	err := cmd.Run(context.Background(), []string{"", "create"})
 
 	assert.NoError(t, err)
+	assert.True(t, slog.Default().Handler().Enabled(context.Background(), slog.LevelDebug)
 }
 
 func TestCreateCommandFail(t *testing.T) {
