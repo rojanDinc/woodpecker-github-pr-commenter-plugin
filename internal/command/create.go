@@ -2,7 +2,9 @@ package command
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/rojanDinc/woodpecker-github-pr-commenter-plugin/internal/plugin"
 	"github.com/urfave/cli/v3"
@@ -27,6 +29,18 @@ func (c *Create) Command() *cli.Command {
 		Flags: c.flags(),
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			plugin := plugin.NewPlugin("https://api.github.com", c.httpClient, c.settings)
+			logHandlerOpts := &slog.HandlerOptions{Level: slog.LevelInfo}
+
+			switch c.settings.LogLevel {
+			case "debug":
+				logHandlerOpts.Level = slog.LevelDebug
+			case "warn", "warning":
+				logHandlerOpts.Level = slog.LevelWarn
+			case "error":
+				logHandlerOpts.Level = slog.LevelError
+			}
+
+			slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, logHandlerOpts)))
 
 			return plugin.Execute(ctx)
 		},
